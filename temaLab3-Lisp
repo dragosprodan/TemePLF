@@ -1,0 +1,32 @@
+; (load "temaLab3.lisp") pentru a incarca file-ul
+; (produsAtomi '(1 ((2) ((3))) (4))) foloseste asta pentru testare
+
+; http://www.gigamonkeys.com/book/they-called-it-lisp-for-a-reason-list-processing.html
+;                               ^
+;								|
+;				 Detalii de functionare a listelor
+
+(defun produsAtomi(lista)
+	(produsLista (rev lista) 1)
+)
+
+(defun rev (lista)
+    (cond
+       	((null lista) '())
+       	((listp (car lista)) (append (rev (car lista)) (rev (cdr lista))))
+       	((numberp (car lista)) (append (list (car lista)) (rev (cdr lista))))
+       	((atom (car lista)) (rev (cdr lista)))
+    )
+) 
+
+
+(defun produsLista (lista produs)
+	(lastL (mapcar (lambda (x) (setq produs (* produs x))) lista))
+)
+
+(defun lastL (lista)
+	(cond
+		((null (cdr lista)) (car lista))
+		(t (lastL (cdr lista)))
+	)
+)
