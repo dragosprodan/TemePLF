@@ -1,0 +1,24 @@
+; (load "temaLab2.lisp") pentru a incarca file-ul
+; (start '(A (B (X) (Y)) (C (D (P) (Q)) (E))) 'Q (list)) exemplu de folosit
+
+
+(defun start(lista elem sol)
+	(cond
+		((null lista) nil)
+		((eq (car lista) elem) (rev (cons elem sol)))
+		((and (not (null (car (cdr lista)))) (not (null (cdr (cdr lista)))) ) (or (start (car (cdr lista) ) elem (cons (car lista) sol ) ) (start (car (cdr (cdr lista) ) ) elem (cons (car lista) sol ) ) ) ) 
+		((not (null (cdr (cdr lista)))) (start (car (cdr (cdr lista))) elem (list (car lista) sol ) ) )
+		((not (null (car (cdr lista)))) (start (car (cdr lista)) elem (cons (car lista) sol ) ) )
+	)
+)
+
+(defun rev (l)
+    (cond
+       	((null l) '())
+        (t (append (rev (cdr l)) (list (car l))))
+    )
+) 
+
+(defun solutie(lista elem)
+	(start lista elem (list))
+)
