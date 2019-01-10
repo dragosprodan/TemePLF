@@ -1,0 +1,50 @@
+; (load "temaLab1.lisp") pentru a incarca file-ul
+(defun scalarVector(xa ya xb yb)"Returneaza produsul scalar al 2 vectori" 
+	(+ (* xa xb) (* ya yb))
+)
+
+(defun maxim(lista) "Returneaza maximul unei liste"
+	(cond
+		((null lista) 0)
+		((numberp (car lista)) (max (car lista) (maxim (cdr lista))))
+		((atom (car lista)) (maxim (cdr lista)))
+		((listp (car lista)) (max (maxim (car lista)) (maxim (cdr lista))))
+	)
+)
+
+(defun ceva (lista)
+(mapcan (lambda (x)
+		(write x)
+		(ceva (remove x lista))
+		(write " ")
+	) lista)
+)
+
+
+
+(defun permutari (lista) "Returneaza toate permutarile posibile"
+	(cond
+		((null (cdr lista)) (list lista))
+		(t (mapcan (lambda (x)
+			(mapcar (lambda (y) (cons x y) )
+				(permutari (remove x lista))
+				) 
+			)
+		lista )
+		) 
+	)
+)
+
+
+
+
+
+
+
+
+(defun parimpar (lista adev) "Returneaza true daca lista are numarul de elemente pare altfel returneaza false"
+(cond
+	((null (car lista)) adev)
+	((null adev) (parimpar (cdr lista) t))
+	(t (parimpar (cdr lista) nil))
+))
