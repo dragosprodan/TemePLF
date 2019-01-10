@@ -1,0 +1,26 @@
+% Ex6 B
+%max(i,o) [e1...en](i) = the list X(o) = the max number
+max([X],X) :- !, true.
+max([X|F], M):- max(F, M), M >= X.
+max([X|F], X):- max(F, M), X >  M.
+
+%delMember(i,i,o) X(i) = to be deleted number [e1...en](i) = the list [m1...mp](o) = the list without the number
+delMember(_, [], []).
+delMember(X, [X|Xs], Y) :- delMember(X, Xs, Y).
+delMember(X, [T|Xs], [T|Y]) :- dif(X, T), delMember(X, Xs, Y).
+
+%removeMax(i,o) X(i) = the list Rez(o) = the list without the biggest number
+removeMax(X,Rez):- max(X,Y),delMember(Y,X,Rez).
+%Final-Ex6 B
+
+%Ex6 A
+%repeat(i,i) -> true or false X(i) = the number to be find [e1...en](i) = the list where to find the numbe
+repeat(X,[X|_]):-!.
+repeat(X,[_|F]):-repeat(X,F).
+
+%removeRep(i,o) [e1...en](i) = the list with duplicates [m1..mp](o) = same list but without duplicates
+removeRep([],[]).
+removeRep([X|R1],L):-repeat(X,R1),delMember(X,R1,Rez),removeRep(Rez,L).
+removeRep([X|R1],[X|R2]):-removeRep(R1,R2).
+%Final-Ex6 A
+
