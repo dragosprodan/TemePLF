@@ -1,0 +1,31 @@
+p% Pentru tot rezultatul:
+% set_prolog_flag(answer_write_options,[ quoted(true),portray(true),spacing(next_argument)]).
+
+%input(o lista) output(lista cu o paranteza deschisa la inceput)
+openParam(X,['\u0028'|X]).
+
+%input(lista) output(lista cu o paranteza inchisa la inceput)
+closeParam(X,['\u0029'|X]).
+
+%input(o lista) input(o lista goala) output(lista intoarsa)
+swap([],Rez,Rez).
+swap([H|F],X,Rez):-swap(F,[H|X],Rez).
+
+%input(o lista goala) input(numar de paranteze generate) output(lista generata)
+ex(X,0,X):-!,k(X,[],0).
+ex(X,Numb,Rez):-closeParam(X,R),N2 is Numb - 1,ex(R,N2,Rez).
+ex(X,Numb,Rez):-openParam(X,R),N2 is Numb - 1,ex(R,N2,Rez).
+
+%input(o lista) input(o lista goala) input(numarul 0, variabila de verificare)
+k([],[],_):-!.
+k([],X,Y):-!,Y is 1,swap(X,[],X2),k(X2,[],0).
+k([O,C|F],X,_):-O=='(',C==')',k(F,X,1).
+k([H|F],X,Y):-k(F,[H|X],Y).
+
+%input(o lista) input(o lista goala) output(lista fara dubluri)
+same([],X,X).
+same([H,H|F],X,Rez):-!,same(F,X,Rez).
+same([H|F],X,Rez):-same(F,[H|X],Rez).
+
+%input(un numar de paranteze) output(o lista cu rezultatele posibile pentru acel numar)
+paranteze(Cate,Rez):-findall(Ceva,ex([],Cate,Ceva),Rsec),same(Rsec,[],Rez).
