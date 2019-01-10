@@ -1,0 +1,43 @@
+% Pentru tot rezultatul:
+% set_prolog_flag(answer_write_options,[ quoted(true),portray(true),spacing(next_argument)]).
+
+% X(input), Y(output)
+nextNumber(X,Y):-Y is X + X + 1.
+
+% List(input), El(input), Output
+addElement(List,El,[El|List]).
+
+% Input, L(input), M(output)
+back([],L,L).
+back([H|F],L,M):- back(F,[H|L],M).
+
+% Input, Input, Output, Input, Input
+test([],L,R,C,C,Elem):-test([],[Elem|L],R,0,C,Elem).
+test([],L,L,_,_,_).
+test([H|F],L,M,C,C,Elem):-C1 is C+1, addElement(L,Elem,R1), addElement(R1,H,R2),nextNumber(C,Nn), test(F,R2,M,C1,Nn,Elem).
+test([H|F],L,M,X,C,Elem):-C1 is X+1,test(F,[H|L],M,C1,C,Elem),!.
+
+% Input, Input, Output
+exA(List,Elem,Rez):-test(List,[],X,0,1,Elem),back(X,[],Rez).
+
+%Exercitiul B:
+
+% Input, Output, Output
+first([H|F],H,F).
+
+%Input, Output, Output,Output
+firstAndSecond([H|F],H,Y,Z):-first(F,Y,Z).
+
+% Input returns true/false
+b([_|_]).
+
+% Input, Input, Output
+combine(X,Y,[X|Y]):-!.
+
+% Input, Input, Output
+test2([],Rez,Rez):-!.
+test2([X,Y|Z],Old,Rez):-not(b(X)),b(Y),exA(Y,X,Rez2),back(Rez2,[],Rez4),test2(Z,[Rez2,X|Old],Rez).
+test2([H|F],Old,X):-test2(F,[H|Old],X).
+
+% Input, Output
+exB(List,Rez):-test2(List,[],X),back(X,[],Rez).
